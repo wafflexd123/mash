@@ -5,9 +5,14 @@ using UnityEngine.UI;
 
 public class Helicopter : MonoBehaviour
 {
-	public float moveSpeed;
-	public Text txtSoldiersRescued, txtSoldiersInHeli;
+	public float moveSpeed, gameResetTime;
+	public Text txtSoldiersRescued, txtSoldiersInHeli, txtWin;
 	int soldierCount, totalRescued;
+
+	private void Awake()
+	{
+		Time.timeScale = 1;
+	}
 
 	void Update()
 	{
@@ -19,7 +24,9 @@ public class Helicopter : MonoBehaviour
 	{
 		if (collision.collider.transform.gameObject.name == "Tree")
 		{
-			UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+			txtWin.text = "Game Over";
+			Time.timeScale = 0;
+			StartCoroutine(WaitForNextGame());
 		}
 	}
 
@@ -41,6 +48,23 @@ public class Helicopter : MonoBehaviour
 			txtSoldiersRescued.text = $"Soldiers Rescued: {totalRescued}";
 			soldierCount = 0;
 			txtSoldiersInHeli.text = $"Soldiers In Helicopter: {soldierCount}";
+			if (totalRescued == 5)
+			{
+				txtWin.text = "You Win!";
+				Time.timeScale = 0;
+				StartCoroutine(WaitForNextGame());
+			}
 		}
+	}
+
+	IEnumerator WaitForNextGame()
+	{
+		float timer = 0;
+		while (timer < gameResetTime)
+		{
+			timer += Time.unscaledDeltaTime;
+			yield return null;
+		}
+		UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 	}
 }
