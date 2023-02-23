@@ -9,6 +9,7 @@ public class Helicopter : MonoBehaviour
 	void Update()
 	{
 		transform.position += new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")) * -moveSpeed * Time.deltaTime;
+		if(Input.GetKeyDown(KeyCode.R)) UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 	}
 
 	private void OnCollisionEnter(Collision collision)
