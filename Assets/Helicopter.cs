@@ -8,7 +8,8 @@ public class Helicopter : MonoBehaviour
 	public float moveSpeed, gameResetTime;
 	public Text txtSoldiersRescued, txtSoldiersInHeli, txtWin;
 	public AudioSource audioSource;
-	int soldierCount, totalRescued;
+	public GameObject tpCam, fpCam;
+	int soldierCount, totalRescued, controlInvert = -1;
 
 	private void Awake()
 	{
@@ -17,8 +18,22 @@ public class Helicopter : MonoBehaviour
 
 	void Update()
 	{
-		transform.position += new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")) * -moveSpeed * Time.deltaTime;
+		if (tpCam.activeSelf) transform.position += -moveSpeed * Time.deltaTime * new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+		else transform.position += moveSpeed * Time.deltaTime * new Vector3(-Input.GetAxis("Vertical"), 0, Input.GetAxis("Horizontal"));
 		if (Input.GetKeyDown(KeyCode.R)) UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+		if (Input.GetKeyDown(KeyCode.Tab))
+		{
+			if (tpCam.activeSelf)
+			{
+				tpCam.SetActive(false);
+				fpCam.SetActive(true);
+			}
+			else
+			{
+				tpCam.SetActive(true);
+				fpCam.SetActive(false);
+			}
+		}
 	}
 
 	private void OnCollisionEnter(Collision collision)
@@ -44,7 +59,8 @@ public class Helicopter : MonoBehaviour
 		{
 			foreach (Transform item in transform)
 			{
-				Destroy(item.gameObject);
+				if (item.name == "Soldier")
+					Destroy(item.gameObject);
 			}
 			totalRescued += soldierCount;
 			txtSoldiersRescued.text = $"Soldiers Rescued: {totalRescued}";
