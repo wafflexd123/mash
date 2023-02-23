@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class Helicopter : MonoBehaviour
 {
 	public float moveSpeed;
-	public Text txtSoldiers;
-	int soldierCount;
+	public Text txtSoldiersRescued, txtSoldiersInHeli;
+	int soldierCount, totalRescued;
 
 	void Update()
 	{
@@ -29,6 +29,7 @@ public class Helicopter : MonoBehaviour
 		{
 			other.gameObject.transform.SetParent(transform);
 			soldierCount++;
+			txtSoldiersInHeli.text = $"Soldiers In Helicopter: {soldierCount}";
 		}
 		else if (soldierCount > 0 && other.gameObject.name == "Hospital")
 		{
@@ -36,7 +37,10 @@ public class Helicopter : MonoBehaviour
 			{
 				Destroy(item.gameObject);
 			}
+			totalRescued += soldierCount;
+			txtSoldiersRescued.text = $"Soldiers Rescued: {totalRescued}";
 			soldierCount = 0;
+			txtSoldiersInHeli.text = $"Soldiers In Helicopter: {soldierCount}";
 		}
 	}
 }
