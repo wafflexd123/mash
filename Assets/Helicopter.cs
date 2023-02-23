@@ -7,6 +7,7 @@ public class Helicopter : MonoBehaviour
 {
 	public float moveSpeed, gameResetTime;
 	public Text txtSoldiersRescued, txtSoldiersInHeli, txtWin;
+	public AudioSource audioSource;
 	int soldierCount, totalRescued;
 
 	private void Awake()
@@ -37,6 +38,7 @@ public class Helicopter : MonoBehaviour
 			other.gameObject.transform.SetParent(transform);
 			soldierCount++;
 			txtSoldiersInHeli.text = $"Soldiers In Helicopter: {soldierCount}";
+			audioSource.Play();
 		}
 		else if (soldierCount > 0 && other.gameObject.name == "Hospital")
 		{
