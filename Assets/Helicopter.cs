@@ -50,7 +50,7 @@ public class Helicopter : MonoBehaviour
 			txtSoldiersRescued.text = $"Soldiers Rescued: {totalRescued}";
 			soldierCount = 0;
 			txtSoldiersInHeli.text = $"Soldiers In Helicopter: {soldierCount}";
-			if (totalRescued == 5)
+			if (totalRescued >= 5)
 			{
 				txtWin.text = "You Win!";
 				Time.timeScale = 0;
