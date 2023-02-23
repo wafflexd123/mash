@@ -4,10 +4,18 @@ using UnityEngine;
 
 public class Helicopter : MonoBehaviour
 {
-    public float moveSpeed;
+	public float moveSpeed;
 
-    void Update()
-    {
-        transform.position += new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")) * -moveSpeed * Time.deltaTime;
-    }
+	void Update()
+	{
+		transform.position += new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")) * -moveSpeed * Time.deltaTime;
+	}
+
+	private void OnCollisionEnter(Collision collision)
+	{
+		if (collision.collider.transform.gameObject.name == "Tree")
+		{
+			UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+		}
+	}
 }
