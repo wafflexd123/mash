@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Helicopter : MonoBehaviour
 {
 	public float moveSpeed;
+	public Text txtSoldiers;
 	int soldierCount;
 
 	void Update()
@@ -27,6 +29,14 @@ public class Helicopter : MonoBehaviour
 		{
 			other.gameObject.transform.SetParent(transform);
 			soldierCount++;
+		}
+		else if (soldierCount > 0 && other.gameObject.name == "Hospital")
+		{
+			foreach (Transform item in transform)
+			{
+				Destroy(item.gameObject);
+			}
+			soldierCount = 0;
 		}
 	}
 }
